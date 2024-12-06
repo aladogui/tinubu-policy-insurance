@@ -61,7 +61,8 @@ public class InsurancePolicySteps {
 
     @When("The user update a policy")
     public void theUserUpdateAPolicy() {
-        currentPolicy = InsurancePolicy.create("Updated Policy", PolicyStatus.INACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 12)), new EndDate(LocalDate.of(2025, 1, 12)));
+        currentPolicy.setPolicyName("Updated Policy");
+        currentPolicy.setPolicyStatus(PolicyStatus.INACTIVE);
     }
 
     @Then("The policy is updated")
