@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InsurancePolicyServiceTest {
 
@@ -50,6 +49,17 @@ class InsurancePolicyServiceTest {
         // Assert
         assertEquals("Updated Policy", result.getPolicyName());
         assertEquals(PolicyStatus.INACTIVE, result.getPolicyStatus());
+    }
+
+    @Test
+    void should_throw_exception_when_updating_non_existent_policy() {
+        // Arrange
+        InsurancePolicy nonExistentPolicy = InsurancePolicy.create("Non-existent Policy", PolicyStatus.INACTIVE, effectiveDate, endDate);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            service.updatePolicy(nonExistentPolicy);
+        });
     }
 
 }
