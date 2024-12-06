@@ -20,7 +20,7 @@ public class InsurancePolicyService {
     }
 
     public Optional<InsurancePolicy> getPolicyById(InsurancePolicyId id) {
-        return Optional.empty();
+        return repository.findById(id);
     }
 
     public InsurancePolicy updatePolicy(InsurancePolicy currentPolicy) {

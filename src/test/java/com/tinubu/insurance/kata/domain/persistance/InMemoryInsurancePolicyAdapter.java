@@ -24,7 +24,7 @@ public class InMemoryInsurancePolicyAdapter implements InsurancePolicyPersistenc
 
     @Override
     public Optional<InsurancePolicy> findById(InsurancePolicyId id) {
-        return Optional.empty();
+        return Optional.ofNullable(policies.get(id));
     }
 
 
