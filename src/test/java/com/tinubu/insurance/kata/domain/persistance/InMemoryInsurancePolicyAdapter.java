@@ -27,5 +27,10 @@ public class InMemoryInsurancePolicyAdapter implements InsurancePolicyPersistenc
         return Optional.ofNullable(policies.get(id));
     }
 
+    @Override
+    public void deleteById(InsurancePolicyId id) {
+        policies.remove(id);
+    }
+
 
 }

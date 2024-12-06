@@ -30,6 +30,6 @@ public class InsurancePolicyService {
     }
 
     public void deletePolicy(InsurancePolicyId insurancePolicyId) {
-
+        repository.deleteById(insurancePolicyId);
     }
 }

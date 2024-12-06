@@ -9,4 +9,6 @@ public interface InsurancePolicyPersistencePort {
     InsurancePolicy save(InsurancePolicy policy);
 
     Optional<InsurancePolicy> findById(InsurancePolicyId id);
+
+    void deleteById(InsurancePolicyId insurancePolicyId);
 }
