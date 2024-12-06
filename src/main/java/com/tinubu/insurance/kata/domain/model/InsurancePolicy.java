@@ -61,8 +61,10 @@ public class InsurancePolicy {
     }
 
     public void setPolicyName(String updatedPolicy) {
+        this.policyName = updatedPolicy;
     }
 
     public void setPolicyStatus(PolicyStatus policyStatus) {
+        this.policyStatus = policyStatus;
     }
 }
