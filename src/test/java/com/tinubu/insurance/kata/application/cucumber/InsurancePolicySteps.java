@@ -4,13 +4,18 @@ import com.tinubu.insurance.kata.domain.model.EffectiveDate;
 import com.tinubu.insurance.kata.domain.model.EndDate;
 import com.tinubu.insurance.kata.domain.model.InsurancePolicy;
 import com.tinubu.insurance.kata.domain.model.PolicyStatus;
+import com.tinubu.insurance.kata.domain.service.IInsurancePolicyService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class InsurancePolicySteps {
+
+    private IInsurancePolicyService service;
 
     private InsurancePolicy currentPolicy;
 
@@ -28,6 +33,9 @@ public class InsurancePolicySteps {
 
     @Then("The policy is created")
     public void the_policy_is_created() {
+        currentPolicy = service.createPolicy(currentPolicy);
+        assertNotNull(currentPolicy);
+        assertNotNull(currentPolicy.getInsurancePolicyId());
     }
 
     @Then("a unique id is generated")
