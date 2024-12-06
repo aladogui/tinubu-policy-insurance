@@ -10,3 +10,8 @@ Feature: Insurance Policy
     Given A user want to update an existing insurance policy
     When The user update a policy
     Then The policy is updated
+
+  Scenario: Delete an existing insurance policy
+    Given A user want to delete an existing insurance policy
+    When The user delete a policy
+    Then The policy is deleted

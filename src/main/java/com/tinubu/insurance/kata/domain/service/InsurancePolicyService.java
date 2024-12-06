@@ -28,4 +28,8 @@ public class InsurancePolicyService {
                 .orElseThrow(() -> new IllegalArgumentException("Policy not found"));
         return repository.save(currentPolicy);
     }
+
+    public void deletePolicy(InsurancePolicyId insurancePolicyId) {
+
+    }
 }

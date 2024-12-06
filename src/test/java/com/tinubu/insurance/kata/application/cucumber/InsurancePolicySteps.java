@@ -14,8 +14,7 @@ import io.cucumber.java.en.When;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class InsurancePolicySteps {
 
@@ -70,5 +69,21 @@ public class InsurancePolicySteps {
         currentPolicy = service.updatePolicy(currentPolicy);
         assertNotNull(currentPolicy);
         assertEquals("Updated Policy", currentPolicy.getPolicyName());
+    }
+
+    @Given("A user want to delete an existing insurance policy")
+    public void a_user_want_to_delete_an_existing_insurance_policy() {
+        currentPolicy = InsurancePolicy.create("Policy to delete", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 12)), new EndDate(LocalDate.of(2025, 1, 12)));
+        currentPolicy = service.createPolicy(currentPolicy);
+    }
+
+    @When("The user delete a policy")
+    public void theUserDeleteAPolicy() {
+        service.deletePolicy(currentPolicy.getInsurancePolicyId());
+    }
+
+    @Then("The policy is deleted")
+    public void thePolicyIsDeleted() {
+        assertFalse(service.getPolicyById(currentPolicy.getInsurancePolicyId()).isPresent());
     }
 }
