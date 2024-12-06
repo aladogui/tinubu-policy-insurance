@@ -4,7 +4,10 @@ import com.tinubu.insurance.kata.domain.model.EffectiveDate;
 import com.tinubu.insurance.kata.domain.model.EndDate;
 import com.tinubu.insurance.kata.domain.model.InsurancePolicy;
 import com.tinubu.insurance.kata.domain.model.PolicyStatus;
-import com.tinubu.insurance.kata.domain.service.IInsurancePolicyService;
+import com.tinubu.insurance.kata.domain.persistance.InMemoryInsurancePolicyAdapter;
+import com.tinubu.insurance.kata.domain.service.InsurancePolicyService;
+import com.tinubu.insurance.kata.domain.spi.InsurancePolicyPersistencePort;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,9 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class InsurancePolicySteps {
 
-    private IInsurancePolicyService service;
+    private InsurancePolicyService service;
 
     private InsurancePolicy currentPolicy;
+
+    @Before
+    public void setup() {
+        InsurancePolicyPersistencePort persistencePort = new InMemoryInsurancePolicyAdapter();
+        service = new InsurancePolicyService(persistencePort);
+    }
 
     @Given("A user want to create a new insurance policy")
     public void a_user_want_to_create_a_new_insurance_policy() {
