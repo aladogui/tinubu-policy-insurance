@@ -1,37 +1,57 @@
 package com.tinubu.insurance.kata.domain.model;
 
 
+import java.time.LocalDateTime;
+
 public class InsurancePolicy {
 
+    private final InsurancePolicyId insurancePolicyId;
+    private final CreationDate creationDate;
+    private final UpdatedDate updatedDate;
+    private String policyName;
+    private PolicyStatus policyStatus;
+    private EffectiveDate effectiveDate;
+    private EndDate endDate;
+
+    private InsurancePolicy(InsurancePolicyId insurancePolicyId, String policyName, PolicyStatus policyStatus, EffectiveDate effectiveDate, EndDate endDate) {
+        this.insurancePolicyId = insurancePolicyId;
+        this.policyName = policyName;
+        this.policyStatus = policyStatus;
+        this.effectiveDate = effectiveDate;
+        this.endDate = endDate;
+        this.creationDate = new CreationDate(LocalDateTime.now());
+        this.updatedDate = new UpdatedDate(LocalDateTime.now());
+    }
+
     public static InsurancePolicy create(String policyName, PolicyStatus policyStatus, EffectiveDate effectiveDate, EndDate endDate) {
-        return null;
-    }
-
-    public String getPolicyName() {
-        return null;
-    }
-
-    public PolicyStatus getPolicyStatus() {
-        return null;
-    }
-
-    public EffectiveDate getEffectiveDate() {
-        return null;
-    }
-
-    public EndDate getEndDate() {
-        return null;
-    }
-
-    public CreationDate getCreationDate() {
-        return null;
-    }
-
-    public UpdatedDate getUpdatedDate() {
-        return null;
+        return new InsurancePolicy(InsurancePolicyId.generate(), policyName, policyStatus, effectiveDate, endDate);
     }
 
     public InsurancePolicyId getInsurancePolicyId() {
-        return null;
+        return insurancePolicyId;
+    }
+
+    public String getPolicyName() {
+        return policyName;
+    }
+
+    public PolicyStatus getPolicyStatus() {
+        return policyStatus;
+    }
+
+    public EffectiveDate getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public EndDate getEndDate() {
+        return endDate;
+    }
+
+    public CreationDate getCreationDate() {
+        return creationDate;
+    }
+
+    public UpdatedDate getUpdatedDate() {
+        return updatedDate;
     }
 }
