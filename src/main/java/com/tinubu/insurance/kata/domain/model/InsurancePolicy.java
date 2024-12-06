@@ -59,4 +59,10 @@ public class InsurancePolicy {
     public UpdatedDate getUpdatedDate() {
         return updatedDate;
     }
+
+    public void setPolicyName(String updatedPolicy) {
+    }
+
+    public void setPolicyStatus(PolicyStatus policyStatus) {
+    }
 }

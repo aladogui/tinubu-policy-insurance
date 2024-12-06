@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InsurancePolicyServiceTest {
@@ -34,6 +35,21 @@ class InsurancePolicyServiceTest {
         InsurancePolicy savedPolicy = service.createPolicy(policy);
 
         assertNotNull(savedPolicy);
+    }
+
+    @Test
+    void should_update_policy_when_values_changed() {
+        // Arrange
+        InsurancePolicy savedPolicy = service.createPolicy(policy);
+        savedPolicy.setPolicyName("Updated Policy");
+        savedPolicy.setPolicyStatus(PolicyStatus.INACTIVE);
+
+        // Act
+        InsurancePolicy result = service.updatePolicy(savedPolicy);
+
+        // Assert
+        assertEquals("Updated Policy", result.getPolicyName());
+        assertEquals(PolicyStatus.INACTIVE, result.getPolicyStatus());
     }
 
 }
