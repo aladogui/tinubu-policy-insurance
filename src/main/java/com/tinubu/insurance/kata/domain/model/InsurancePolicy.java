@@ -24,6 +24,11 @@ public class InsurancePolicy {
     }
 
     public static InsurancePolicy create(String policyName, PolicyStatus policyStatus, EffectiveDate effectiveDate, EndDate endDate) {
+        if (policyName == null || policyName.isEmpty())
+            throw new IllegalArgumentException("Policy name cannot be null or empty");
+        if (policyStatus == null) throw new IllegalArgumentException("Policy status cannot be null");
+        if (effectiveDate == null) throw new IllegalArgumentException("Effective date cannot be null");
+        if (endDate == null) throw new IllegalArgumentException("End date cannot be null");
         return new InsurancePolicy(InsurancePolicyId.generate(), policyName, policyStatus, effectiveDate, endDate);
     }
 
