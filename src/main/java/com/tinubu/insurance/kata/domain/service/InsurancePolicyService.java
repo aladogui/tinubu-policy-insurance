@@ -16,4 +16,7 @@ public class InsurancePolicyService {
         return repository.save(policy);
     }
 
+    public InsurancePolicy updatePolicy(InsurancePolicy currentPolicy) {
+        return null;
+    }
 }

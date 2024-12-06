@@ -5,3 +5,8 @@ Feature: Insurance Policy
     When The user create a policy
     Then The policy is created
     And a unique id is generated
+
+  Scenario: Update an existing insurance policy
+    Given A user want to update an existing insurance policy
+    When The user update a policy
+    Then The policy is updated

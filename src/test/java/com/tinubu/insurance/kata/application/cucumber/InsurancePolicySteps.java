@@ -14,6 +14,7 @@ import io.cucumber.java.en.When;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class InsurancePolicySteps {
@@ -50,5 +51,23 @@ public class InsurancePolicySteps {
     @Then("a unique id is generated")
     public void a_unique_id_is_generated() {
         assertNotNull(currentPolicy.getInsurancePolicyId().id());
+    }
+
+    @Given("A user want to update an existing insurance policy")
+    public void a_user_want_to_update_an_existing_insurance_policy() {
+        currentPolicy = InsurancePolicy.create("Existing Policy", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 12)), new EndDate(LocalDate.of(2025, 1, 12)));
+        currentPolicy = service.createPolicy(currentPolicy);
+    }
+
+    @When("The user update a policy")
+    public void theUserUpdateAPolicy() {
+        currentPolicy = InsurancePolicy.create("Updated Policy", PolicyStatus.INACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 12)), new EndDate(LocalDate.of(2025, 1, 12)));
+    }
+
+    @Then("The policy is updated")
+    public void thePolicyIsUpdated() {
+        currentPolicy = service.updatePolicy(currentPolicy);
+        assertNotNull(currentPolicy);
+        assertEquals("Updated Policy", currentPolicy.getPolicyName());
     }
 }
