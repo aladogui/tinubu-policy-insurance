@@ -49,5 +49,6 @@ public class InsurancePolicySteps {
 
     @Then("a unique id is generated")
     public void a_unique_id_is_generated() {
+        assertNotNull(currentPolicy.getInsurancePolicyId().id());
     }
 }
