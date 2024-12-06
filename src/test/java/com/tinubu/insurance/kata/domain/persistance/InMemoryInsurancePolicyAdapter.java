@@ -6,6 +6,7 @@ import com.tinubu.insurance.kata.domain.spi.InsurancePolicyPersistencePort;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class InMemoryInsurancePolicyAdapter implements InsurancePolicyPersistencePort {
 
@@ -20,5 +21,11 @@ public class InMemoryInsurancePolicyAdapter implements InsurancePolicyPersistenc
         policies.put(policy.getInsurancePolicyId(), policy);
         return policy;
     }
+
+    @Override
+    public Optional<InsurancePolicy> findById(InsurancePolicyId id) {
+        return Optional.empty();
+    }
+
 
 }

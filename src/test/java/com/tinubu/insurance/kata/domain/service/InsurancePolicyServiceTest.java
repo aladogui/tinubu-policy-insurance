@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,6 +61,19 @@ class InsurancePolicyServiceTest {
         assertThrows(IllegalArgumentException.class, () -> {
             service.updatePolicy(nonExistentPolicy);
         });
+    }
+
+    @Test
+    void should_return_policy_by_id_when_policy_exists() {
+        // Arrange
+        repository.save(policy);
+
+        // Act
+        Optional<InsurancePolicy> foundPolicy = service.getPolicyById(policy.getInsurancePolicyId());
+
+        // Assert
+        assertTrue(foundPolicy.isPresent());
+        assertEquals(policy, foundPolicy.get());
     }
 
 }

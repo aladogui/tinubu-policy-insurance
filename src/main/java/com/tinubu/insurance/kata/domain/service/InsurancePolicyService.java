@@ -1,7 +1,10 @@
 package com.tinubu.insurance.kata.domain.service;
 
 import com.tinubu.insurance.kata.domain.model.InsurancePolicy;
+import com.tinubu.insurance.kata.domain.model.InsurancePolicyId;
 import com.tinubu.insurance.kata.domain.spi.InsurancePolicyPersistencePort;
+
+import java.util.Optional;
 
 
 public class InsurancePolicyService {
@@ -16,7 +19,13 @@ public class InsurancePolicyService {
         return repository.save(policy);
     }
 
+    public Optional<InsurancePolicy> getPolicyById(InsurancePolicyId id) {
+        return Optional.empty();
+    }
+
     public InsurancePolicy updatePolicy(InsurancePolicy currentPolicy) {
+        repository.findById(currentPolicy.getInsurancePolicyId())
+                .orElseThrow(() -> new IllegalArgumentException("Policy not found"));
         return repository.save(currentPolicy);
     }
 }
