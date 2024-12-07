@@ -5,6 +5,7 @@ import com.tinubu.insurance.kata.domain.model.InsurancePolicyId;
 import com.tinubu.insurance.kata.domain.spi.InsurancePolicyPersistencePort;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,6 +31,11 @@ public class InMemoryInsurancePolicyAdapter implements InsurancePolicyPersistenc
     @Override
     public void deleteById(InsurancePolicyId id) {
         policies.remove(id);
+    }
+
+    @Override
+    public List<InsurancePolicy> findAll() {
+        return policies.values().stream().toList();
     }
 
 

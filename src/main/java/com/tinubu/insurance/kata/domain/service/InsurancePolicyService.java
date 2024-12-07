@@ -4,7 +4,6 @@ import com.tinubu.insurance.kata.domain.model.InsurancePolicy;
 import com.tinubu.insurance.kata.domain.model.InsurancePolicyId;
 import com.tinubu.insurance.kata.domain.spi.InsurancePolicyPersistencePort;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +35,6 @@ public class InsurancePolicyService {
     }
 
     public List<InsurancePolicy> getAllPolicies() {
-        return new ArrayList<>();
+        return repository.findAll();
     }
 }
