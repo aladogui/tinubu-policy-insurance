@@ -93,6 +93,7 @@ public class InsurancePolicySteps {
     @Given("An insurance policy exists")
     public void an_insurance_policy_exists() {
         currentPolicy = InsurancePolicy.create("Policy to retrieve", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 12)), new EndDate(LocalDate.of(2025, 1, 12)));
+        service.createPolicy(InsurancePolicy.create("Policy to retrieve 2", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 2, 12)), new EndDate(LocalDate.of(2025, 12, 12))));
         currentPolicy = service.createPolicy(currentPolicy);
     }
 
@@ -107,4 +108,13 @@ public class InsurancePolicySteps {
         assertEquals("Policy to retrieve", retrievedPolicy.get().getPolicyName());
     }
 
+    @When("The user get all policies")
+    public void theUserGetAllPolicies() {
+        service.getAllPolicies();
+    }
+
+    @Then("The policies are retrieved")
+    public void thePoliciesAreRetrieved() {
+        Assertions.assertEquals(2, service.getAllPolicies().size());
+    }
 }

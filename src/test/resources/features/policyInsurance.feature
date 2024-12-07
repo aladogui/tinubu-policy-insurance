@@ -20,3 +20,8 @@ Feature: Insurance Policy
     Given An insurance policy exists
     When The user get a policy by id
     Then The policy is retrieved
+
+  Scenario: Get all existing insurance policies
+    Given An insurance policy exists
+    When The user get all policies
+    Then The policies are retrieved
