@@ -11,8 +11,10 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.Assertions;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,6 +23,7 @@ public class InsurancePolicySteps {
     private InsurancePolicyService service;
 
     private InsurancePolicy currentPolicy;
+    Optional<InsurancePolicy> retrievedPolicy;
 
     @Before
     public void setup() {
@@ -86,4 +89,22 @@ public class InsurancePolicySteps {
     public void thePolicyIsDeleted() {
         assertFalse(service.getPolicyById(currentPolicy.getInsurancePolicyId()).isPresent());
     }
+
+    @Given("An insurance policy exists")
+    public void an_insurance_policy_exists() {
+        currentPolicy = InsurancePolicy.create("Policy to retrieve", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 12)), new EndDate(LocalDate.of(2025, 1, 12)));
+        currentPolicy = service.createPolicy(currentPolicy);
+    }
+
+    @When("The user get a policy by id")
+    public void the_user_get_a_policy_by_id() {
+        retrievedPolicy = service.getPolicyById(currentPolicy.getInsurancePolicyId());
+    }
+
+    @Then("The policy is retrieved")
+    public void the_policy_is_retrieved() {
+        Assertions.assertTrue(retrievedPolicy.isPresent());
+        assertEquals("Policy to retrieve", retrievedPolicy.get().getPolicyName());
+    }
+
 }
