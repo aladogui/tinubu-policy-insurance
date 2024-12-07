@@ -5,6 +5,7 @@ import com.tinubu.insurance.kata.domain.model.EndDate;
 import com.tinubu.insurance.kata.domain.model.InsurancePolicy;
 import com.tinubu.insurance.kata.domain.model.PolicyStatus;
 import com.tinubu.insurance.kata.domain.persistance.InMemoryInsurancePolicyAdapter;
+import com.tinubu.insurance.kata.domain.service.IInsurancePolicyService;
 import com.tinubu.insurance.kata.domain.service.InsurancePolicyService;
 import com.tinubu.insurance.kata.domain.spi.InsurancePolicyPersistencePort;
 import io.cucumber.java.Before;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InsurancePolicySteps {
 
-    private InsurancePolicyService service;
+    private IInsurancePolicyService service;
 
     private InsurancePolicy currentPolicy;
     Optional<InsurancePolicy> retrievedPolicy;
