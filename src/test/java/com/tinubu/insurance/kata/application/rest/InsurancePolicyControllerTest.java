@@ -11,6 +11,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -89,6 +90,18 @@ class InsurancePolicyControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/insurance-policies/null"))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void should_return_all_policies_when_call_get_insurance_policies_endpoint() throws Exception {
+        // Arrange
+        InsurancePolicy policy1 = InsurancePolicy.create("Policy 1", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 7)), new EndDate(LocalDate.of(2024, 12, 31)));
+        InsurancePolicy policy2 = InsurancePolicy.create("Policy 2", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 7)), new EndDate(LocalDate.of(2024, 12, 31)));
+        when(service.getAllPolicies()).thenReturn(List.of(policy1, policy2));
+        // Act & Assert
+        mockMvc.perform(get("/api/insurance-policies"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
 
