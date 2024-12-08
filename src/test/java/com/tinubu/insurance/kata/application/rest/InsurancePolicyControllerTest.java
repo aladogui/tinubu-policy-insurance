@@ -105,18 +105,24 @@ class InsurancePolicyControllerTest {
     @Test
     void should_return_updated_policy_when_call_put_insurance_policies_endpoint() throws Exception {
         // Arrange
+        InsurancePolicyRequest updatedPolicyRequest = new InsurancePolicyRequest("Updated Policy", "INACTIVE", LocalDate.of(2024, 2, 7), LocalDate.of(2024, 2, 28));
+        when(service.getPolicyById(any(InsurancePolicyId.class))).thenReturn(Optional.of(policy));
+        policy.setPolicyStatus(PolicyStatus.INACTIVE);
+        policy.setPolicyName("Updated Policy");
+        policy.setEffectiveDate(new EffectiveDate(LocalDate.of(2024, 2, 7)));
+        policy.setEndDate(new EndDate(LocalDate.of(2024, 2, 28)));
         when(service.updatePolicy(any(InsurancePolicy.class))).thenReturn(policy);
 
         // Act & Assert
         mockMvc.perform(put("/api/insurance-policies/" + policy.getInsurancePolicyId().id())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(policyRequest.toString()))
+                        .content(updatedPolicyRequest.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(policy.getInsurancePolicyId().id()))
-                .andExpect(jsonPath("$.name").value("New Policy"))
-                .andExpect(jsonPath("$.status").value("ACTIVE"))
-                .andExpect(jsonPath("$.startDate").value("2024-12-07"))
-                .andExpect(jsonPath("$.endDate").value("2024-12-31"));
+                .andExpect(jsonPath("$.name").value("Updated Policy"))
+                .andExpect(jsonPath("$.status").value("INACTIVE"))
+                .andExpect(jsonPath("$.startDate").value("2024-02-07"))
+                .andExpect(jsonPath("$.endDate").value("2024-02-28"));
     }
 
 

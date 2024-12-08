@@ -40,16 +40,32 @@ public class InsurancePolicy {
         return policyName;
     }
 
+    public void setPolicyName(String updatedPolicy) {
+        this.policyName = updatedPolicy;
+    }
+
     public PolicyStatus getPolicyStatus() {
         return policyStatus;
+    }
+
+    public void setPolicyStatus(PolicyStatus policyStatus) {
+        this.policyStatus = policyStatus;
     }
 
     public EffectiveDate getEffectiveDate() {
         return effectiveDate;
     }
 
+    public void setEffectiveDate(EffectiveDate effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
     public EndDate getEndDate() {
         return endDate;
+    }
+
+    public void setEndDate(EndDate endDate) {
+        this.endDate = endDate;
     }
 
     public CreationDate getCreationDate() {
@@ -58,13 +74,5 @@ public class InsurancePolicy {
 
     public UpdatedDate getUpdatedDate() {
         return updatedDate;
-    }
-
-    public void setPolicyName(String updatedPolicy) {
-        this.policyName = updatedPolicy;
-    }
-
-    public void setPolicyStatus(PolicyStatus policyStatus) {
-        this.policyStatus = policyStatus;
     }
 }

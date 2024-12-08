@@ -39,6 +39,16 @@ public class InsurancePolicyController {
         return ResponseEntity.ok(mapToPoliciesResponse(service.getAllPolicies()));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<InsurancePolicyResponse> updatePolicy(@PathVariable Integer id, @RequestBody InsurancePolicyRequest policyRequest) {
+        InsurancePolicy existingPolicy = service.getPolicyById(new InsurancePolicyId(id)).orElseThrow(() -> new IllegalArgumentException("Policy not found"));
+        existingPolicy.setPolicyName(policyRequest.name());
+        existingPolicy.setPolicyStatus(PolicyStatus.valueOf(policyRequest.status().toUpperCase()));
+        existingPolicy.setEffectiveDate(new EffectiveDate(policyRequest.startDate()));
+        existingPolicy.setEndDate(new EndDate(policyRequest.endDate()));
+        return ResponseEntity.ok(mapToPolicyResponse(service.updatePolicy(existingPolicy)));
+    }
+
     private List<InsurancePolicyResponse> mapToPoliciesResponse(List<InsurancePolicy> allPolicies) {
         return allPolicies.stream().map(this::mapToPolicyResponse).toList();
     }
