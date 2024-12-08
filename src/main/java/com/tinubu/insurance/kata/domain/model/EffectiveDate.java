@@ -2,11 +2,6 @@ package com.tinubu.insurance.kata.domain.model;
 
 import java.time.LocalDate;
 
-public class EffectiveDate {
-    public EffectiveDate(LocalDate effectiveDate) {
-    }
+public record EffectiveDate(LocalDate localDate) {
 
-    public LocalDate localDate() {
-        return null;
-    }
 }
