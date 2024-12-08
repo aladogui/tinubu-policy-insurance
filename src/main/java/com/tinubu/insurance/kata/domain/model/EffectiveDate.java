@@ -5,4 +5,8 @@ import java.time.LocalDate;
 public class EffectiveDate {
     public EffectiveDate(LocalDate effectiveDate) {
     }
+
+    public LocalDate localDate() {
+        return null;
+    }
 }

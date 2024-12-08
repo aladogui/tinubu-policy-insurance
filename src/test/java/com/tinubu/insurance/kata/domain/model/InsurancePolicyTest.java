@@ -21,7 +21,9 @@ class InsurancePolicyTest {
         assertEquals("Test Policy", policy.getPolicyName());
         assertEquals(PolicyStatus.ACTIVE, policy.getPolicyStatus());
         assertEquals(effectiveDate, policy.getEffectiveDate());
+        assertEquals(LocalDate.of(2024, 12, 12), effectiveDate.localDate());
         assertEquals(endDate, policy.getEndDate());
+        assertEquals(LocalDate.of(2025, 1, 12), endDate.localDate());
         assertNotNull(policy.getCreationDate());
         assertNotNull(policy.getUpdatedDate());
         assertNotNull(policy.getInsurancePolicyId());
