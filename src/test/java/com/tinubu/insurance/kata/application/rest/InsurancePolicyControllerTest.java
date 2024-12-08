@@ -16,14 +16,15 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 @WebMvcTest(InsurancePolicyController.class)
 class InsurancePolicyControllerTest {
 
+    private final InsurancePolicy policy = InsurancePolicy.create("New Policy", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 7)), new EndDate(LocalDate.of(2024, 12, 31)));
+    private final InsurancePolicyRequest policyRequest = new InsurancePolicyRequest("New Policy", "active", LocalDate.of(2024, 12, 7), LocalDate.of(2024, 12, 31));
     @Autowired
     MockMvc mockMvc;
     @MockitoBean
@@ -32,8 +33,6 @@ class InsurancePolicyControllerTest {
     @Test
     void should_create_policy_when_call_post_insurance_policies_endpoint() throws Exception {
         // Arrange
-        CreateInsurancePolicyRequest policyRequest = new CreateInsurancePolicyRequest("New Policy", "active", LocalDate.of(2024, 12, 7), LocalDate.of(2024, 12, 31));
-        InsurancePolicy policy = InsurancePolicy.create("New Policy", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 7)), new EndDate(LocalDate.of(2024, 12, 31)));
         when(service.createPolicy(any(InsurancePolicy.class))).thenReturn(policy);
 
         // Act & Assert
@@ -53,7 +52,6 @@ class InsurancePolicyControllerTest {
     @Test
     void should_return_an_existing_policy_when_call_get_insurance_policies_endpoint() throws Exception {
         // Arrange
-        InsurancePolicy policy = InsurancePolicy.create("New Policy", PolicyStatus.ACTIVE, new EffectiveDate(LocalDate.of(2024, 12, 7)), new EndDate(LocalDate.of(2024, 12, 31)));
         InsurancePolicyResponse expectedPolicyResponse = new InsurancePolicyResponse(policy.getInsurancePolicyId().id(),
                 policy.getPolicyName(),
                 policy.getPolicyStatus().name(),
@@ -102,6 +100,23 @@ class InsurancePolicyControllerTest {
         mockMvc.perform(get("/api/insurance-policies"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    void should_return_updated_policy_when_call_put_insurance_policies_endpoint() throws Exception {
+        // Arrange
+        when(service.updatePolicy(any(InsurancePolicy.class))).thenReturn(policy);
+
+        // Act & Assert
+        mockMvc.perform(put("/api/insurance-policies/" + policy.getInsurancePolicyId().id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(policyRequest.toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(policy.getInsurancePolicyId().id()))
+                .andExpect(jsonPath("$.name").value("New Policy"))
+                .andExpect(jsonPath("$.status").value("ACTIVE"))
+                .andExpect(jsonPath("$.startDate").value("2024-12-07"))
+                .andExpect(jsonPath("$.endDate").value("2024-12-31"));
     }
 
 

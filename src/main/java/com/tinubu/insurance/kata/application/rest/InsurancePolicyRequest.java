@@ -5,9 +5,9 @@ import jakarta.annotation.Nonnull;
 
 import java.time.LocalDate;
 
-public record CreateInsurancePolicyRequest(String name, String status, LocalDate startDate, LocalDate endDate) {
+public record InsurancePolicyRequest(String name, String status, LocalDate startDate, LocalDate endDate) {
 
-    public CreateInsurancePolicyRequest(@Nonnull String name, @Nonnull String status, @Nonnull LocalDate startDate, @Nonnull LocalDate endDate) {
+    public InsurancePolicyRequest(@Nonnull String name, @Nonnull String status, @Nonnull LocalDate startDate, @Nonnull LocalDate endDate) {
         if (name.isEmpty()) throw new IllegalArgumentException("Policy name cannot be empty");
         if (status.isEmpty()) throw new IllegalArgumentException("Policy status cannot be empty");
         this.name = name;

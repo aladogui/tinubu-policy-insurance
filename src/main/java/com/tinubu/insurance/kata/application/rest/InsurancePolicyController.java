@@ -18,7 +18,7 @@ public class InsurancePolicyController {
     }
 
     @PostMapping
-    public ResponseEntity<InsurancePolicyResponse> createPolicy(@RequestBody CreateInsurancePolicyRequest policyToCreate) {
+    public ResponseEntity<InsurancePolicyResponse> createPolicy(@RequestBody InsurancePolicyRequest policyToCreate) {
         InsurancePolicy createdPolicy = service.createPolicy(mapToInsurancePolicy(policyToCreate));
         return ResponseEntity.ok(mapToPolicyResponse(createdPolicy));
     }
@@ -53,7 +53,7 @@ public class InsurancePolicyController {
                 createdPolicy.getUpdatedDate().updatedDateTime());
     }
 
-    private InsurancePolicy mapToInsurancePolicy(CreateInsurancePolicyRequest request) {
+    private InsurancePolicy mapToInsurancePolicy(InsurancePolicyRequest request) {
         return InsurancePolicy.create(request.name(), PolicyStatus.valueOf(request.status().toUpperCase()), new EffectiveDate(request.startDate()), new EndDate(request.endDate()));
     }
 
