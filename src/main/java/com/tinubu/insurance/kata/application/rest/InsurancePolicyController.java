@@ -5,6 +5,8 @@ import com.tinubu.insurance.kata.domain.service.IInsurancePolicyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/insurance-policies")
 public class InsurancePolicyController {
@@ -30,6 +32,15 @@ public class InsurancePolicyController {
         return service.getPolicyById(new InsurancePolicyId(id))
                 .map(policy -> ResponseEntity.ok(mapToPolicyResponse(policy)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<InsurancePolicyResponse>> getAllPolicies() {
+        return ResponseEntity.ok(mapToPoliciesResponse(service.getAllPolicies()));
+    }
+
+    private List<InsurancePolicyResponse> mapToPoliciesResponse(List<InsurancePolicy> allPolicies) {
+        return allPolicies.stream().map(this::mapToPolicyResponse).toList();
     }
 
     private InsurancePolicyResponse mapToPolicyResponse(InsurancePolicy createdPolicy) {
