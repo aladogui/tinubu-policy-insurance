@@ -1,9 +1,6 @@
 package com.tinubu.insurance.kata.application.rest;
 
-import com.tinubu.insurance.kata.domain.model.EffectiveDate;
-import com.tinubu.insurance.kata.domain.model.EndDate;
-import com.tinubu.insurance.kata.domain.model.InsurancePolicy;
-import com.tinubu.insurance.kata.domain.model.PolicyStatus;
+import com.tinubu.insurance.kata.domain.model.*;
 import com.tinubu.insurance.kata.domain.service.IInsurancePolicyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.json.JsonCompareMode;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -65,13 +61,20 @@ class InsurancePolicyControllerTest {
                 policy.getCreationDate().creationDateTime(),
                 policy.getUpdatedDate().updatedDateTime());
 
-        when(service.getPolicyById(policy.getInsurancePolicyId())).thenReturn(Optional.of(policy));
+        when(service.getPolicyById(any(InsurancePolicyId.class))).thenReturn(Optional.of(policy));
 
         // Act & Assert
         mockMvc.perform(get("/api/insurance-policies/-415548445"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(expectedPolicyResponse.toString(), JsonCompareMode.LENIENT));
+                .andExpectAll(jsonPath("$.id").value(policy.getInsurancePolicyId().id()),
+                        jsonPath("$.name").value(expectedPolicyResponse.name()),
+                        jsonPath("$.status").value(expectedPolicyResponse.status()),
+                        jsonPath("$.startDate").value(expectedPolicyResponse.startDate().toString()),
+                        jsonPath("$.endDate").value(expectedPolicyResponse.endDate().toString()),
+                        jsonPath("$.creationDate").exists(),
+                        jsonPath("$.updatedDate").exists());
+
     }
 
     @Test
