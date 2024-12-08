@@ -6,11 +6,11 @@ import com.tinubu.insurance.kata.domain.model.InsurancePolicy;
 import com.tinubu.insurance.kata.domain.model.PolicyStatus;
 import com.tinubu.insurance.kata.domain.service.IInsurancePolicyService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -18,8 +18,7 @@ import java.time.LocalDate;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
 @WebMvcTest(InsurancePolicyController.class)
@@ -27,7 +26,7 @@ class InsurancePolicyControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-    @Mock
+    @MockitoBean
     private IInsurancePolicyService service;
 
     @Test
@@ -42,7 +41,12 @@ class InsurancePolicyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(policyRequest.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(policyRequest.getName()));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpectAll(jsonPath("$.id").value(policy.getInsurancePolicyId().id()),
+                        jsonPath("$.name").value("New Policy"),
+                        jsonPath("$.status").value("ACTIVE"),
+                        jsonPath("$.startDate").value("2024-12-07"),
+                        jsonPath("$.endDate").value("2024-12-31"));
     }
 
 
