@@ -23,6 +23,16 @@ public class InsurancePolicy {
         this.updatedDate = new UpdatedDate(LocalDateTime.now());
     }
 
+    public InsurancePolicy(InsurancePolicyId insurancePolicyId, CreationDate creationDate, UpdatedDate updatedDate, String policyName, PolicyStatus policyStatus, EffectiveDate effectiveDate, EndDate endDate) {
+        this.insurancePolicyId = insurancePolicyId;
+        this.creationDate = creationDate;
+        this.updatedDate = updatedDate;
+        this.policyName = policyName;
+        this.policyStatus = policyStatus;
+        this.effectiveDate = effectiveDate;
+        this.endDate = endDate;
+    }
+
     public static InsurancePolicy create(String policyName, PolicyStatus policyStatus, EffectiveDate effectiveDate, EndDate endDate) {
         if (policyName == null || policyName.isEmpty())
             throw new IllegalArgumentException("Policy name cannot be null or empty");
@@ -30,6 +40,10 @@ public class InsurancePolicy {
         if (effectiveDate == null) throw new IllegalArgumentException("Effective date cannot be null");
         if (endDate == null) throw new IllegalArgumentException("End date cannot be null");
         return new InsurancePolicy(InsurancePolicyId.generate(), policyName, policyStatus, effectiveDate, endDate);
+    }
+
+    public static InsurancePolicy create(Integer id, String name, PolicyStatus policyStatus, EffectiveDate effectiveDate, EndDate endDate, LocalDateTime creationDate, LocalDateTime updatedDate) {
+        return new InsurancePolicy(new InsurancePolicyId(id), new CreationDate(creationDate), new UpdatedDate(updatedDate), name, policyStatus, effectiveDate, endDate);
     }
 
     public InsurancePolicyId getInsurancePolicyId() {
